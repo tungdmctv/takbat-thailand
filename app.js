@@ -36,6 +36,13 @@
     };
   };
 
+  const articleDateLabel = (isoDate) => {
+    const date = thaiDateParts(isoDate);
+    return `${Number(date.day)} ${date.month} ${date.year}`;
+  };
+
+  const articleURL = (article) => article.url || `https://www.dmc.tv/article/${article.id}`;
+
   const renderEvents = () => {
     const list = document.querySelector("#event-list");
     if (!list) return;
@@ -61,26 +68,41 @@
   };
 
   const articlePanel = document.querySelector("#article-panel");
+  const articleSearch = document.querySelector("#article-search");
+  const articleStatus = document.querySelector("#article-status");
+  const articleMore = document.querySelector("#article-more");
   const tabs = [...document.querySelectorAll("[data-article-type]")];
+  const PAGE_SIZE = 8;
+  let activeType = "invite";
+  let searchQuery = "";
+  let visibleCount = PAGE_SIZE;
 
-  const renderArticles = (type) => {
+  const renderArticles = () => {
     if (!articlePanel) return;
 
     const primaryURL = data.primarySource.url;
     const articles = data.articles
-      .filter((article) => article.type === type)
+      .filter((article) => article.type === activeType)
+      .filter((article) => {
+        if (!searchQuery) return true;
+        const searchableText = [article.title, article.summary, article.label, articleDateLabel(article.date)]
+          .join(" ")
+          .toLocaleLowerCase("th");
+        return searchableText.includes(searchQuery);
+      })
       .sort((a, b) => {
-        if (a.url === primaryURL) return -1;
-        if (b.url === primaryURL) return 1;
+        if (articleURL(a) === primaryURL) return -1;
+        if (articleURL(b) === primaryURL) return 1;
         return b.date.localeCompare(a.date);
       });
 
-    articlePanel.innerHTML = articles
+    const visibleArticles = articles.slice(0, visibleCount);
+    articlePanel.innerHTML = visibleArticles
       .map(
         (article) => `
-          <a class="article-item" href="${escapeHTML(article.url)}" target="_blank" rel="noopener noreferrer">
+          <a class="article-item" href="${escapeHTML(articleURL(article))}" target="_blank" rel="noopener noreferrer">
             <div class="article-meta">
-              <time datetime="${escapeHTML(article.date)}">${escapeHTML(article.displayDate)}</time>
+              <time datetime="${escapeHTML(article.date)}">${escapeHTML(articleDateLabel(article.date))}</time>
               <span>${escapeHTML(article.label)}</span>
             </div>
             <div class="article-copy">
@@ -91,6 +113,27 @@
           </a>`,
       )
       .join("");
+
+    if (!articles.length) {
+      articlePanel.innerHTML = `
+        <div class="article-empty">
+          <strong>ไม่พบบทความที่ตรงกับคำค้น</strong>
+          <p>ลองค้นด้วยชื่อจังหวัด ชื่องาน หรือจำนวนพระสงฆ์อีกครั้ง</p>
+        </div>`;
+    }
+
+    if (articleStatus) {
+      const shown = Math.min(visibleArticles.length, articles.length);
+      articleStatus.textContent = `แสดง ${shown} จาก ${articles.length} บทความ`;
+    }
+
+    if (articleMore) {
+      const remaining = articles.length - visibleArticles.length;
+      articleMore.hidden = remaining <= 0;
+      articleMore.textContent = remaining > PAGE_SIZE
+        ? `แสดงอีก ${PAGE_SIZE} บทความ`
+        : `แสดงอีก ${remaining} บทความ`;
+    }
   };
 
   const updateTab = (activeTab) => {
@@ -101,7 +144,9 @@
       tab.tabIndex = isActive ? 0 : -1;
     });
     articlePanel?.setAttribute("aria-labelledby", activeTab.id);
-    renderArticles(activeTab.dataset.articleType);
+    activeType = activeTab.dataset.articleType;
+    visibleCount = PAGE_SIZE;
+    renderArticles();
   };
 
   tabs.forEach((tab, index) => {
@@ -122,6 +167,18 @@
   document.querySelector("#review-count").textContent = data.articles.filter(
     (article) => article.type === "review",
   ).length;
+  document.querySelector("#article-total").textContent = data.articles.length;
+
+  articleSearch?.addEventListener("input", (event) => {
+    searchQuery = event.currentTarget.value.trim().toLocaleLowerCase("th");
+    visibleCount = PAGE_SIZE;
+    renderArticles();
+  });
+
+  articleMore?.addEventListener("click", () => {
+    visibleCount += PAGE_SIZE;
+    renderArticles();
+  });
 
   const header = document.querySelector("#site-header");
   const navToggle = document.querySelector(".nav-toggle");
@@ -173,5 +230,5 @@
   if (copyrightYear) copyrightYear.textContent = String(currentThaiYear);
 
   renderEvents();
-  renderArticles("invite");
+  renderArticles();
 })();

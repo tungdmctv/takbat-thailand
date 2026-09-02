@@ -1,16 +1,19 @@
 :root {
-  --red: #d71920;
-  --red-deep: #aa1017;
-  --red-dark: #700b10;
+  --red: #c8102e;
+  --red-bright: #e31937;
+  --red-deep: #99132a;
+  --red-dark: #5e0a18;
+  --gold: #b9995c;
+  --gold-light: #ead5a8;
   --ink: #211b19;
-  --ink-soft: #625a56;
-  --paper: #fffdfa;
-  --warm: #f7f1ec;
-  --line: rgba(33, 27, 25, 0.14);
+  --ink-soft: #655c57;
+  --paper: #fffdf8;
+  --warm: #f5efe6;
+  --line: rgba(51, 38, 31, 0.16);
   --white: #ffffff;
   --shell: min(1180px, calc(100vw - 48px));
   --header-height: 84px;
-  --shadow: 0 28px 80px rgba(76, 22, 20, 0.13);
+  --shadow: 0 32px 90px rgba(65, 26, 21, 0.13);
   font-family: "Noto Sans Thai", "Thonburi", "Leelawadee UI", Tahoma, sans-serif;
   color: var(--ink);
   background: var(--paper);
@@ -67,7 +70,7 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid #ffb3b5;
+  outline: 3px solid var(--gold-light);
   outline-offset: 4px;
 }
 
@@ -136,10 +139,28 @@ a {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
+  gap: 13px;
   font-size: 0.98rem;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
+}
+
+.brand-copy {
+  display: grid;
+  gap: 1px;
+  line-height: 1.15;
+}
+
+.brand-copy strong {
+  font-weight: 760;
+}
+
+.brand-copy small {
+  opacity: 0.72;
+  font-size: 0.62rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .brand-mark {
@@ -150,6 +171,7 @@ a {
   color: currentColor;
   border: 1px solid currentColor;
   border-radius: 50%;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.08);
 }
 
 .brand-mark svg {
@@ -193,7 +215,8 @@ a {
   padding: 10px 17px;
   color: var(--ink);
   background: var(--white);
-  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 2px;
   transition:
     transform 180ms ease,
     background 180ms ease;
@@ -203,6 +226,7 @@ a {
 .site-header.is-open .nav-cta {
   color: var(--white);
   background: var(--red);
+  border-color: var(--red);
 }
 
 .nav-cta:hover {
@@ -250,7 +274,7 @@ a {
   align-items: end;
   overflow: hidden;
   color: var(--white);
-  background: #6e321d;
+  background: #5a1916;
 }
 
 .hero-image,
@@ -271,9 +295,9 @@ a {
 .hero-shade {
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(40, 16, 9, 0.86) 0%, rgba(63, 24, 14, 0.62) 33%, rgba(64, 22, 12, 0.08) 70%),
-    linear-gradient(0deg, rgba(24, 9, 5, 0.58) 0%, transparent 42%),
-    linear-gradient(180deg, rgba(20, 8, 4, 0.38) 0%, transparent 24%);
+    linear-gradient(90deg, rgba(42, 8, 14, 0.91) 0%, rgba(77, 16, 23, 0.68) 34%, rgba(56, 16, 12, 0.08) 72%),
+    linear-gradient(0deg, rgba(32, 7, 12, 0.68) 0%, transparent 46%),
+    linear-gradient(180deg, rgba(28, 7, 10, 0.46) 0%, transparent 28%);
 }
 
 .hero-content {
@@ -281,33 +305,59 @@ a {
 }
 
 .eyebrow {
-  margin: 0 0 13px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
   color: var(--red);
   font-size: 0.76rem;
   font-weight: 800;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
+.eyebrow::before {
+  content: "";
+  width: 30px;
+  height: 1px;
+  flex: 0 0 auto;
+  background: currentColor;
+}
+
 .hero .eyebrow {
-  color: #ffccce;
+  color: var(--gold-light);
 }
 
 .hero h1 {
-  max-width: 760px;
+  max-width: 800px;
   margin: 0;
-  font-size: clamp(3.2rem, 7vw, 7.3rem);
-  font-weight: 650;
-  line-height: 1.02;
-  letter-spacing: -0.06em;
+  font-family: "Noto Serif Thai", "Th Sarabun New", "Thonburi", serif;
+  font-size: clamp(3.5rem, 7.3vw, 7.7rem);
+  font-weight: 620;
+  line-height: 0.94;
+  letter-spacing: -0.055em;
   text-wrap: balance;
+}
+
+.hero h1 span {
+  color: #f4dfb7;
+  font-size: 1.08em;
+  font-weight: 650;
+}
+
+.hero-subtitle {
+  margin: 24px 0 0;
+  color: var(--white);
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  font-weight: 720;
+  letter-spacing: 0.11em;
 }
 
 .hero-lead {
   max-width: 550px;
-  margin: 30px 0 0;
+  margin: 22px 0 0;
   color: rgba(255, 255, 255, 0.88);
-  font-size: clamp(1rem, 1.5vw, 1.24rem);
+  font-size: clamp(1rem, 1.4vw, 1.17rem);
   line-height: 1.75;
 }
 
@@ -325,7 +375,7 @@ a {
   justify-content: center;
   padding: 12px 24px;
   font-weight: 750;
-  border-radius: 999px;
+  border-radius: 2px;
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
@@ -338,12 +388,12 @@ a {
 
 .button-primary {
   color: var(--white);
-  background: var(--red);
+  background: var(--red-bright);
   box-shadow: 0 14px 30px rgba(147, 12, 17, 0.35);
 }
 
 .button-primary:hover {
-  background: #ed252c;
+  background: #f12643;
   box-shadow: 0 18px 34px rgba(147, 12, 17, 0.45);
 }
 
@@ -376,6 +426,39 @@ a {
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.72rem;
   letter-spacing: 0.06em;
+}
+
+.hero-year {
+  position: absolute;
+  right: max(24px, calc((100vw - 1180px) / 2));
+  top: 50%;
+  display: grid;
+  justify-items: end;
+  color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-50%);
+}
+
+.hero-year::before {
+  content: "";
+  width: 1px;
+  height: 86px;
+  margin: 0 18px 19px 0;
+  background: linear-gradient(transparent, var(--gold-light));
+}
+
+.hero-year span {
+  margin-right: 4px;
+  color: var(--gold-light);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.hero-year strong {
+  font-family: "Noto Serif Thai", "Th Sarabun New", serif;
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
 }
 
 .hero-meta span + span::before {
@@ -423,6 +506,10 @@ a {
   animation-delay: 270ms;
 }
 
+.hero-reveal:nth-child(5) {
+  animation-delay: 360ms;
+}
+
 .section {
   padding-block: clamp(88px, 10vw, 150px);
 }
@@ -440,7 +527,8 @@ a {
 .closing-section h2 {
   margin: 0;
   font-size: clamp(2.55rem, 5vw, 5rem);
-  font-weight: 620;
+  font-family: "Noto Serif Thai", "Th Sarabun New", "Thonburi", serif;
+  font-weight: 590;
   line-height: 1.12;
   letter-spacing: -0.05em;
   text-wrap: balance;
@@ -456,8 +544,8 @@ a {
 .calendar-section {
   position: relative;
   background:
-    linear-gradient(rgba(215, 25, 32, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(215, 25, 32, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(185, 153, 92, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(185, 153, 92, 0.055) 1px, transparent 1px),
     var(--paper);
   background-size: 48px 48px;
 }
@@ -465,8 +553,8 @@ a {
 .calendar-frame {
   overflow: hidden;
   background: var(--white);
-  border: 1px solid rgba(215, 25, 32, 0.18);
-  border-radius: 4px 4px 28px 28px;
+  border: 1px solid rgba(185, 153, 92, 0.38);
+  border-radius: 2px;
   box-shadow: var(--shadow);
 }
 
@@ -480,7 +568,7 @@ a {
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  border-top: 5px solid var(--red);
+  border-top: 4px solid var(--red);
   border-bottom: 1px solid var(--line);
 }
 
@@ -538,6 +626,8 @@ a {
   font-size: clamp(1.8rem, 3vw, 3rem);
   line-height: 1.2;
   letter-spacing: -0.04em;
+  font-family: "Noto Serif Thai", "Th Sarabun New", serif;
+  font-weight: 580;
 }
 
 .event-list {
@@ -608,7 +698,9 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(27, 12, 8, 0.06), rgba(28, 11, 7, 0.54));
+  background:
+    linear-gradient(90deg, rgba(27, 12, 8, 0.05), rgba(53, 8, 17, 0.64)),
+    linear-gradient(0deg, rgba(38, 7, 12, 0.25), transparent 46%);
 }
 
 .project-visual img {
@@ -632,7 +724,8 @@ a {
   margin: 0;
   color: var(--white);
   font-size: clamp(2rem, 4vw, 4.6rem);
-  font-weight: 600;
+  font-family: "Noto Serif Thai", "Th Sarabun New", serif;
+  font-weight: 560;
   line-height: 1.17;
   letter-spacing: -0.05em;
   text-align: right;
@@ -728,6 +821,7 @@ a {
 .timeline-item.is-current {
   color: var(--white);
   background: var(--red);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 20px 50px rgba(115, 13, 31, 0.18);
   border-top-color: var(--red);
   padding-left: 28px;
   transform: translateY(-22px);
@@ -750,7 +844,9 @@ a {
 }
 
 .preparation-section {
-  background: var(--ink);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(185, 153, 92, 0.12), transparent 28%),
+    linear-gradient(140deg, #221b18, #15100f 72%);
   color: var(--white);
 }
 
@@ -807,7 +903,42 @@ a {
 }
 
 .articles-section {
-  background: var(--paper);
+  background:
+    linear-gradient(90deg, transparent 0 9%, rgba(185, 153, 92, 0.07) 9% calc(9% + 1px), transparent calc(9% + 1px)),
+    var(--paper);
+}
+
+.article-audit {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px 28px;
+  align-items: end;
+  margin: 0 0 34px;
+  padding: 22px 0;
+  border-top: 1px solid var(--gold);
+  border-bottom: 1px solid rgba(185, 153, 92, 0.35);
+}
+
+.article-audit > span {
+  color: var(--red);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.article-audit strong {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  color: var(--red-deep);
+  font-family: "Noto Serif Thai", "Th Sarabun New", serif;
+  font-size: clamp(1.8rem, 3.5vw, 3.1rem);
+  font-weight: 560;
+}
+
+.article-audit p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
 }
 
 .article-tabs {
@@ -819,7 +950,7 @@ a {
 
 .article-tab {
   display: flex;
-  min-height: 72px;
+  min-height: 76px;
   align-items: center;
   justify-content: space-between;
   padding: 12px 22px;
@@ -860,6 +991,55 @@ a {
   border-bottom-color: var(--red);
 }
 
+.article-tools {
+  display: flex;
+  min-height: 82px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 15px;
+  border-bottom: 1px solid var(--line);
+}
+
+.article-search {
+  display: flex;
+  width: min(100%, 560px);
+  align-items: center;
+  gap: 13px;
+  color: var(--red);
+  border-bottom: 1px solid rgba(33, 27, 25, 0.42);
+}
+
+.article-search > span:first-child {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.article-search input {
+  width: 100%;
+  min-height: 48px;
+  padding: 4px 0;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.article-search:focus-within {
+  border-color: var(--red);
+}
+
+.article-search input::placeholder {
+  color: #938985;
+}
+
+#article-status {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+
 .article-list {
   border-bottom: 1px solid var(--ink);
 }
@@ -869,7 +1049,7 @@ a {
   grid-template-columns: 145px minmax(0, 1fr) 44px;
   gap: 32px;
   align-items: center;
-  min-height: 170px;
+  min-height: 158px;
   padding-block: 24px;
   border-bottom: 1px solid var(--line);
   transition:
@@ -919,6 +1099,7 @@ a {
   margin: 9px 0 0;
   color: var(--ink-soft);
   font-size: 0.9rem;
+  line-height: 1.65;
 }
 
 .article-arrow {
@@ -939,6 +1120,46 @@ a {
   color: var(--white);
   background: var(--red);
   transform: translate(3px, -3px);
+}
+
+.article-more {
+  display: block;
+  min-width: 240px;
+  min-height: 54px;
+  margin: 38px auto 0;
+  padding: 10px 24px;
+  color: var(--red-deep);
+  background: transparent;
+  border: 1px solid var(--red);
+  border-radius: 2px;
+  cursor: pointer;
+  font-weight: 750;
+  transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.article-more:hover {
+  color: var(--white);
+  background: var(--red);
+  transform: translateY(-2px);
+}
+
+.article-more[hidden] {
+  display: none;
+}
+
+.article-empty {
+  padding: 72px 24px;
+  text-align: center;
+}
+
+.article-empty strong {
+  color: var(--red-deep);
+  font-size: 1.2rem;
+}
+
+.article-empty p {
+  margin: 8px 0 0;
+  color: var(--ink-soft);
 }
 
 .noscript-note {
@@ -965,7 +1186,7 @@ a {
   opacity: 0.32;
   background:
     radial-gradient(circle at 50% 135%, transparent 0 28%, rgba(255, 255, 255, 0.22) 28.3% 28.6%, transparent 29% 37%, rgba(255, 255, 255, 0.18) 37.3% 37.6%, transparent 38%),
-    linear-gradient(125deg, #6e080c, #d71920 58%, #a30b11);
+    linear-gradient(125deg, #4a0715, #c8102e 58%, #861126);
 }
 
 .closing-content {
@@ -1132,6 +1353,7 @@ a {
   }
 
   .hero-meta,
+  .hero-year,
   .scroll-cue {
     display: none;
   }
@@ -1156,6 +1378,16 @@ a {
 
   .event-highlights {
     margin-top: 68px;
+  }
+
+  .article-tools {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  #article-status {
+    align-self: flex-end;
   }
 
   .project-visual > p {
@@ -1195,12 +1427,16 @@ a {
     font-size: 0.9rem;
   }
 
+  .brand-copy small {
+    display: none;
+  }
+
   .brand-mark {
     width: 34px;
   }
 
   .hero {
-    min-height: 760px;
+    min-height: 800px;
   }
 
   .hero-image {
@@ -1219,8 +1455,15 @@ a {
   }
 
   .hero h1 {
-    font-size: clamp(3rem, 14vw, 4.6rem);
+    font-size: clamp(3.25rem, 15vw, 5rem);
+    line-height: 0.96;
     letter-spacing: -0.055em;
+  }
+
+  .hero-subtitle {
+    margin-top: 20px;
+    font-size: 0.92rem;
+    letter-spacing: 0.08em;
   }
 
   .hero-lead {
@@ -1255,7 +1498,7 @@ a {
 
   .calendar-frame {
     margin-inline: -8px;
-    border-radius: 4px 4px 20px 20px;
+    border-radius: 2px;
   }
 
   .calendar-frame iframe {
@@ -1329,6 +1572,19 @@ a {
     grid-template-columns: 1fr;
   }
 
+  .article-audit {
+    grid-template-columns: 1fr;
+  }
+
+  .article-audit strong {
+    grid-row: auto;
+    grid-column: auto;
+  }
+
+  .article-audit p {
+    margin-top: 5px;
+  }
+
   .article-tab + .article-tab {
     border-left: 0;
   }
@@ -1338,6 +1594,14 @@ a {
     gap: 16px;
     min-height: auto;
     padding-block: 28px;
+  }
+
+  .article-search {
+    width: 100%;
+  }
+
+  #article-status {
+    align-self: flex-start;
   }
 
   .article-meta {
