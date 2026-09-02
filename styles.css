@@ -593,6 +593,89 @@ a {
   border: 0;
 }
 
+.calendar-subscribe {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(185, 153, 92, 0.38);
+}
+
+.calendar-subscribe-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.calendar-subscribe-copy span {
+  color: var(--red);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.calendar-subscribe-copy p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.calendar-subscribe-button {
+  display: inline-flex;
+  min-height: 52px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  padding: 12px 20px;
+  color: var(--white);
+  background: var(--red);
+  border: 1px solid var(--red);
+  border-radius: 2px;
+  box-shadow: 0 12px 26px rgba(147, 12, 17, 0.18);
+  font-weight: 750;
+  white-space: nowrap;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.calendar-subscribe-button svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.calendar-subscribe-button:hover {
+  color: var(--red);
+  background: transparent;
+  border-color: rgba(215, 25, 32, 0.62);
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+
+.calendar-subscribe-button:focus-visible {
+  outline: 3px solid rgba(215, 25, 32, 0.2);
+  outline-offset: 3px;
+}
+
+.calendar-subscribe-arrow {
+  font-size: 0.9rem;
+  transition: transform 180ms ease;
+}
+
+.calendar-subscribe-button:hover .calendar-subscribe-arrow {
+  transform: translate(2px, -2px);
+}
+
 .primary-source-note {
   display: flex;
   flex-wrap: wrap;
@@ -1503,6 +1586,17 @@ a {
 
   .calendar-frame iframe {
     height: 640px;
+  }
+
+  .calendar-subscribe {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 18px;
+    padding-block: 22px;
+  }
+
+  .calendar-subscribe-button {
+    width: 100%;
   }
 
   .event-item {
