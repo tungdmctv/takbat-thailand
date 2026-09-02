@@ -183,14 +183,54 @@
   const header = document.querySelector("#site-header");
   const navToggle = document.querySelector(".nav-toggle");
   const navLinks = [...document.querySelectorAll("#primary-nav a")];
+  const navToggleLabel = navToggle?.querySelector(".sr-only");
+  const pageProgress = document.querySelector("#page-progress");
+  const sectionLinks = navLinks.filter((link) => !link.classList.contains("nav-cta"));
+  const linkedSections = sectionLinks
+    .map((link) => document.querySelector(link.hash))
+    .filter(Boolean);
 
   const updateHeader = () => {
     header?.classList.toggle("is-scrolled", window.scrollY > 24);
   };
 
+  const updatePageProgress = () => {
+    if (!pageProgress) return;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+    pageProgress.style.transform = `scaleX(${progress})`;
+  };
+
+  const updateActiveNavigation = () => {
+    if (!linkedSections.length) return;
+    const marker = window.scrollY + window.innerHeight * 0.34;
+    let activeId = "";
+
+    linkedSections.forEach((section) => {
+      if (section.offsetTop <= marker) activeId = `#${section.id}`;
+    });
+
+    sectionLinks.forEach((link) => {
+      if (link.hash === activeId) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  };
+
+  let scrollFrame = 0;
+  const updateScrollUI = () => {
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(() => {
+      updateHeader();
+      updatePageProgress();
+      updateActiveNavigation();
+      scrollFrame = 0;
+    });
+  };
+
   const closeNavigation = () => {
     header?.classList.remove("is-open");
     navToggle?.setAttribute("aria-expanded", "false");
+    if (navToggleLabel) navToggleLabel.textContent = "เปิดเมนู";
     document.body.classList.remove("nav-open");
   };
 
@@ -198,15 +238,17 @@
     const willOpen = !header.classList.contains("is-open");
     header.classList.toggle("is-open", willOpen);
     navToggle.setAttribute("aria-expanded", String(willOpen));
+    if (navToggleLabel) navToggleLabel.textContent = willOpen ? "ปิดเมนู" : "เปิดเมนู";
     document.body.classList.toggle("nav-open", willOpen);
   });
 
   navLinks.forEach((link) => link.addEventListener("click", closeNavigation));
-  window.addEventListener("scroll", updateHeader, { passive: true });
+  window.addEventListener("scroll", updateScrollUI, { passive: true });
   window.addEventListener("resize", () => {
     if (window.innerWidth > 960) closeNavigation();
+    updateScrollUI();
   });
-  updateHeader();
+  updateScrollUI();
 
   const revealItems = [...document.querySelectorAll(".reveal")];
   if ("IntersectionObserver" in window) {

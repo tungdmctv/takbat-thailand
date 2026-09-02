@@ -13,10 +13,12 @@
   --white: #ffffff;
   --shell: min(1180px, calc(100vw - 48px));
   --header-height: 84px;
-  --shadow: 0 32px 90px rgba(65, 26, 21, 0.13);
+  --shadow: 0 24px 64px rgba(65, 26, 21, 0.1);
   font-family: "Noto Sans Thai", "Thonburi", "Leelawadee UI", Tahoma, sans-serif;
   color: var(--ink);
   background: var(--paper);
+  color-scheme: light;
+  accent-color: var(--red);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -28,6 +30,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-height) + 16px);
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -37,6 +40,10 @@ body {
   background: var(--paper);
   font-size: 16px;
   line-height: 1.7;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 body.nav-open {
@@ -136,6 +143,19 @@ a {
   backdrop-filter: blur(18px);
 }
 
+.page-progress {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--gold), var(--red-bright));
+  box-shadow: 0 0 16px rgba(200, 16, 46, 0.22);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
@@ -209,6 +229,14 @@ a {
 
 .primary-nav > a:not(.nav-cta):hover::after {
   right: 0;
+}
+
+.primary-nav > a[aria-current="location"]:not(.nav-cta)::after {
+  right: 0;
+}
+
+.site-header.is-scrolled .primary-nav > a[aria-current="location"]:not(.nav-cta) {
+  color: var(--red);
 }
 
 .nav-cta {
@@ -417,17 +445,6 @@ a {
   color: var(--white);
 }
 
-.hero-meta {
-  position: absolute;
-  right: max(24px, calc((100vw - 1180px) / 2));
-  bottom: 36px;
-  display: flex;
-  gap: 24px;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-}
-
 .hero-year {
   position: absolute;
   right: max(24px, calc((100vw - 1180px) / 2));
@@ -459,11 +476,6 @@ a {
   font-size: 2rem;
   font-weight: 500;
   letter-spacing: 0.08em;
-}
-
-.hero-meta span + span::before {
-  content: "•";
-  margin-right: 24px;
 }
 
 .scroll-cue {
@@ -724,6 +736,20 @@ a {
   align-items: center;
   padding-block: 23px;
   border-bottom: 1px solid var(--line);
+  transition:
+    color 180ms ease,
+    padding 220ms ease,
+    background 220ms ease;
+}
+
+.event-item:hover {
+  padding-inline: 14px;
+  color: var(--red-deep);
+  background: rgba(200, 16, 46, 0.035);
+}
+
+.event-item:hover .event-time {
+  transform: translate(3px, -2px);
 }
 
 .event-date {
@@ -763,6 +789,7 @@ a {
   font-size: 0.85rem;
   font-weight: 800;
   white-space: nowrap;
+  transition: transform 180ms ease;
 }
 
 .project-section {
@@ -773,7 +800,7 @@ a {
 
 .project-visual {
   position: relative;
-  height: clamp(440px, 64vw, 780px);
+  height: clamp(440px, 54vw, 660px);
   overflow: hidden;
 }
 
@@ -1435,7 +1462,6 @@ a {
     text-align: center;
   }
 
-  .hero-meta,
   .hero-year,
   .scroll-cue {
     display: none;
