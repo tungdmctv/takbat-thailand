@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tungdmctv.github.io/takbat-thailand/sitemap.xml
+Sitemap: https://www.dmc.tv/almsgiving/sitemap.xml

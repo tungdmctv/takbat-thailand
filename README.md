@@ -2,6 +2,8 @@
 
 Landing page และปฏิทินงานตักบาตรทั่วไทย พ.ศ. 2569 ในภาพลักษณ์พิธีการขาว–แดง–ทอง สร้างด้วย HTML, CSS และ JavaScript ธรรมดา ไม่มีฐานข้อมูลและไม่มีขั้นตอน build
 
+เว็บไซต์หลัก: [https://www.dmc.tv/almsgiving/](https://www.dmc.tv/almsgiving/)
+
 เว็บไซต์ประกอบด้วย:
 
 - ปฏิทิน Google Calendar สำหรับกำหนดการล่าสุด
@@ -51,9 +53,23 @@ python3 -m http.server 8080
 
 จากนั้นเปิด `http://localhost:8080/`
 
-## เผยแพร่
+## เผยแพร่บน GitHub Pages
 
 GitHub Actions ใน `.github/workflows/deploy-pages.yml` จะเผยแพร่เว็บไซต์เมื่อ push เข้า branch `main` หลังเปิด GitHub Pages ให้ใช้ GitHub Actions เป็น source แล้ว
+
+GitHub Pages เป็นหน้าสำรองสำหรับตรวจงาน โดย canonical URL ของเว็บไซต์ชี้ไปยัง `https://www.dmc.tv/almsgiving/`
+
+## เผยแพร่บน DMC.TV
+
+ไฟล์ใน `deploy/` ใช้ติดตั้งเว็บไซต์แบบ static บน `172.29.2.15:2500` แล้วให้ Nginx บน `172.29.2.18:9999` ส่งต่อเฉพาะเส้นทาง `/almsgiving/`
+
+- ใช้อิมเมจ `nginx:1.27-alpine` ที่มีอยู่ในเครื่อง โดยกำหนด `pull_policy: never`
+- จำกัดหน่วยความจำ 64 MB, CPU 0.10 และจำนวน process 32
+- รันด้วยผู้ใช้ non-root, filesystem แบบ read-only และปิด Linux capabilities ทั้งหมด
+- เก็บแต่ละรุ่นไว้ใน `releases/<git-commit>` และสลับ symlink `current` เพื่อย้อนกลับได้
+- ตรวจสุขภาพภายในที่ `/healthz`; URL สาธารณะคือ `https://www.dmc.tv/almsgiving/`
+
+รายละเอียดคำสั่งติดตั้ง ตรวจสอบ และย้อนกลับอยู่ใน [`deploy/README.md`](deploy/README.md)
 
 ## ภาพ
 

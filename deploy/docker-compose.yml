@@ -1,0 +1,39 @@
+name: takbat-almsgiving
+
+services:
+  web:
+    image: nginx:1.27-alpine
+    pull_policy: never
+    container_name: takbat_almsgiving
+    user: "101:101"
+    entrypoint: []
+    command: ["nginx", "-g", "daemon off;"]
+    ports:
+      - "172.29.2.15:2500:8080"
+    volumes:
+      - ./current:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    read_only: true
+    tmpfs:
+      - /tmp:size=4m,mode=1777,noexec,nosuid
+    mem_limit: 64m
+    mem_reservation: 8m
+    cpus: 0.10
+    pids_limit: 32
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+    stop_grace_period: 5s
